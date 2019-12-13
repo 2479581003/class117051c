@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       〈<ul>
+           <li v-for="good in goodlist" v-bind:key="good.goodName">
+               <sapn>{{good.goodName}}</sapn>
+               --<span>{{good.price}}</span>
+               --<span><input type="number" v-model="good.count"></span>
+               --<span>{{good.price*good.count}}</span>
+           </li>
+       </ul>
+       <h1>总价为:{{totalPrice}}元</h1>
+      
+    </div>
+    <script>
+        var app =new Vue({
+            el:"#app",
+            data:{
+            goodlist:[
+                {goodName:"ipad",price:2000,count:1},
+                {goodName:"电脑",price:6000,count:2},
+                {goodName:"兰博基尼",price:11999999,count:1},
+                {goodName:"耳机",price:20,count:3}
+            ],
+                totalPrice:0
+            },
+            watch:{
+                goodlist:{
+                    deep:true,
+                    handler:function(newVal){
+                        //newVal实际上指向更新后的goodlist
+                        var result=0;
+                        //good代表数组迭代出来的每一个good元素，index是他的数组索引
+                        newVal.forEach(function(good,index){
+                            result+=good.price*good.count;
+                        })
+                        this.totalPrice =result;
+                    }
+                }
+            }
+            /* computed:{
+                totalPrice:function(){
+                    var result=0;
+                   for(var i=0;i<this.goodlist.length;i++){
+                        result+=this.goodlist[i].price*this.goodlist[i].count;
+                    }
+                    return result;
+                }
+            } */
+        })
+    </script>
+</body>
+</html>
